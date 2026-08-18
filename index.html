@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <meta charset="UTF-8">
+  <title>UT2004 Bot Studio - Mock-up</title>
+  <style>
+    :root {
+      --font-sans: "Segoe UI", Arial, sans-serif;
+      --font-size-xs: 11px;
+      --font-size-sm: 12px;
+      --font-size-body: 13px;
+      --font-size-nav: 14px;
+      --font-size-brand: 15x;
+      --font-size-title: 21px;
+      --page-bg: #000;
+      --surface-0: #0b0b0d;
+      --surface-1: #121214;
+      --surface-2: #1c1c1e;
+      --surface-3: #0f0f10;
+      --border: #38383d;
+      --border-strong: #4a4a52;
+      --text: #FAF9F6;
+      --text-secondary: #aeaea3;
+      --text-muted: #aeaea3;
+      --text-faint: #aeaea3;
+      --accent: #df4113;
+      --accent-bright: #ff521a;
+      --accent-contrast: #fff;
+    }
+
+
+    body.light-theme {
+      --page-bg: #e5e5e7;
+      --surface-0: #f2f2f7;
+      --surface-1: #ffffff;
+      --surface-2: #e5e5ea;
+      --surface-3: #f0f0f5;
+      --border: #b5b5bd;
+      --border-strong: #9a9aa3;
+      --text: #1c1c1e;
+      --text-secondary: #3a3a3c;
+      --text-muted: #48484a;
+      --text-faint: #636366;
+      --accent-contrast: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--page-bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: var(--font-size-body);
+    }
+
+    .app-frame {
+      background: var(--surface-1);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 20px;
+    }
+
+    .app-window {
+      background: var(--surface-0);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      min-height: 520px;
+    }
+
+    .app-body-row {
+      display: flex;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .app-sidebar {
+      width: 150px;
+      background: var(--surface-1);
+      border-right: 1px solid var(--border);
+      padding: 16px 0;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .app-brand {
+      padding: 0 14px 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+      color: var(--accent-bright);
+      font-size: var(--font-size-brand);
+      font-weight: 500;
+    }
+
+    .app-nav {
+      padding: 9px 14px;
+      color: var(--text-secondary);
+      font-size: var(--font-size-nav);
+      cursor: pointer;
+    }
+
+    .app-nav.active {
+      color: var(--text);
+      background: var(--surface-2);
+      border-left: 2px solid var(--accent);
+    }
+
+    .theme-switcher-container {
+      margin: 0 6px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-secondary);
+      font-size: var(--font-size-sm);
+    }
+
+    .theme-switcher-container select {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 11px;
+  width: 100%;
+  outline: none;
+  cursor: pointer;
+  color-scheme: dark;
+}
+
+body.light-theme .theme-switcher-container select {
+  color-scheme: light;
+}
+
+    .app-main {
+      flex: 1;
+      min-width: 0;
+      padding: 20px 24px;
+      display: none;
+      flex-direction: column;
+    }
+
+    .app-main.active {
+      display: flex;
+    }
+
+    .app-page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .app-page-title {
+      color: var(--text);
+      font-size: var(--font-size-title);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin: 0;
+    }
+
+    .app-subtitle {
+      color: var(--text-muted);
+      font-size: var(--font-size-body);
+      margin-bottom: 30px;
+    }
+
+    .app-target {
+      background: var(--surface-1);
+      padding: 6px 10px;
+      color: var(--text-muted);
+      font-size: var(--font-size-body);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .app-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .app-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .app-card {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+    }
+
+    .app-card.home-card {
+      padding: 18px;
+      cursor: pointer;
+    }
+
+    .app-tabs {
+      display: flex;
+      gap: 2px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    .app-tab {
+      color: var(--text-muted);
+      padding: 7px 18px;
+      font-size: var(--font-size-body);
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
+
+    .app-tab.active {
+      background: var(--surface-1);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      color: var(--accent-bright);
+    }
+
+    .dual-slider {
+      position: relative;
+      flex: 1;
+      height: 20px;
+    }
+
+    .dual-slider-track {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--border-strong);
+      border-radius: 2px;
+      transform: translateY(-50%);
+    }
+
+    .dual-slider-range {
+      position: absolute;
+      top: 50%;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+      transform: translateY(-50%);
+    }
+
+    .dual-slider-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      margin: 0;
+      background: none;
+      pointer-events: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .dual-slider-input::-webkit-slider-runnable-track {
+      -webkit-appearance: none;
+      background: transparent;
+    }
+
+    .dual-slider-input::-moz-range-track {
+      background: transparent;
+      border: none;
+    }
+
+    .dual-slider-input::-webkit-slider-thumb {
+      pointer-events: auto;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-contrast);
+      border: 2px solid var(--accent);
+      cursor: pointer;
+      position: relative;
+      z-index: 3;
+    }
+
+    .dual-slider-input::-moz-range-thumb {
+      pointer-events: auto;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-contrast);
+      border: 2px solid var(--accent);
+      cursor: pointer;
+      z-index: 3;
+      border: 2px solid var(--accent);
+    }
+
+    .sub-view {
+      display: none;
+    }
+
+    .sub-view.active {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .app-section-title {
+      color: var(--text-muted);
+      font-size: var(--font-size-body);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--surface-2);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+
+    .app-chip {
+      background: var(--surface-2);
+      border: 1px solid var(--border-strong);
+      border-radius: 3px;
+      padding: 3px 8px;
+      font-size: var(--font-size-sm);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .app-chip.add {
+      border-style: dashed;
+      color: var(--text-faint);
+      cursor: pointer;
+    }
+
+    .role-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .role-item {
+      padding: 6px 8px;
+      font-size: var(--font-size-body);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .role-item.selected {
+      background: var(--surface-2);
+      border-left: 2px solid var(--accent);
+      color: var(--text);
+    }
+
+    .config-group-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--border-strong);
+      color: var(--text-secondary);
+      border-radius: 4px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      cursor: pointer;
+    }
+
+    .config-group-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .browser-list {
+      width: 160px;
+      background: var(--surface-3);
+      border-right: 1px solid var(--border);
+      padding: 14px;
+      flex-shrink: 0;
+    }
+
+    .settings-row {
+      background: var(--surface-2);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .quicklist {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .quicklist-item {
+      padding: 6px 8px;
+      font-size: var(--font-size-body);
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .quicklist-item.active {
+      background: var(--surface-2);
+      border-left: 2px solid var(--accent);
+      color: var(--text);
+    }
+
+    .portrait-panel {
+      width: 130px;
+      border-right: 1px solid var(--border);
+      padding: 14px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .portrait {
+      width: 100px;
+      height: 200px;
+      background: var(--page-bg);
+      border: 2px solid var(--accent);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: var(--font-size-xs);
+      text-align: center;
+      padding: 8px;
+      text-transform: uppercase;
+    }
+
+    .app-table {
+      width: 100%;
+      font-size: var(--font-size-sm);
+      border-collapse: collapse;
+    }
+
+    .app-table td {
+      padding: 5px 0;
+    }
+
+    .app-table tr:first-child {
+      color: var(--text-faint);
+    }
+
+    .app-table tr:not(:first-child) {
+      border-top: 1px solid var(--surface-2);
+    }
+
+    .app-button {
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: var(--accent-contrast);
+      border-radius: 3px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .app-button:hover {
+      background: var(--accent-bright);
+    }
+
+    .app-button-prominent {
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: var(--accent-contrast);
+      border-radius: 4px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 2px 6px rgba(223, 65, 19, 0.3);
+    }
+
+    .app-button-prominent:hover {
+      background: var(--accent-bright);
+    }
+
+    input,
+    select {
+      background: var(--surface-2);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      border-radius: 3px;
+      padding: 4px 8px;
+      font-size: 12px;
+      outline: none;
+    }
+
+    button {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-frame">
+    <div class="app-window">
+      <!-- Sidebar -->
+      <div class="app-sidebar">
+        <div>
+          <div class="app-brand">UT2004 Bot Studio</div>
+          <div class="app-nav active" data-view="home"><i class="ti ti-home"
+              style="font-size:14px;margin-right:6px;vertical-align:-2px;" aria-hidden="true"></i>Home</div>
+          <div class="app-nav" data-view="configure"><i class="ti ti-adjustments"
+              style="font-size:14px;margin-right:6px;vertical-align:-2px;" aria-hidden="true"></i>Configure Bots</div>
+          <div class="app-nav" data-view="report"><i class="ti ti-file-report"
+              style="font-size:14px;margin-right:6px;vertical-align:-2px;" aria-hidden="true"></i>Bot Reporting</div>
+          <div class="app-nav" data-view="browser"><i class="ti ti-search"
+              style="font-size:14px;margin-right:6px;vertical-align:-2px;" aria-hidden="true"></i>Bot Inspector</div>
+          <div class="app-nav" data-view="settings"><i class="ti ti-settings"
+              style="font-size:14px;margin-right:6px;vertical-align:-2px;" aria-hidden="true"></i>Settings</div>
+        </div>
+        <div style="padding:0 6px;">
+          <div class="theme-switcher-container">
+            <select id="theme-dropdown" onchange="changeTheme(this.value)">
+              <option value="dark" selected>🌙 Dark Theme</option>
+              <option value="light">☀️ Light Theme</option>
+              <option value="system">💻 System Default</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-body-row">
+        <!-- HOME VIEW -->
+        <div id="view-home" class="app-main active">
+          <div
+            style="color:var(--text);font-size:20px;font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">
+            Welcome back</div>
+          <div style="color:var(--text-muted);font-size:13px;margin-bottom:24px;">Choose a task to get started</div>
+          <div class="app-grid-3">
+            <div class="app-card home-card" onclick="switchView('configure')">
+              <i class="ti ti-adjustments" style="font-size:22px;color:var(--accent);" aria-hidden="true"></i>
+              <div style="color:var(--text);font-size:14px;font-weight:500;margin-top:10px;">Configure Bots</div>
+              <div style="color:var(--text-muted);font-size:12px;margin-top:4px;line-height:1.5;">Set skills, roles and
+                weapons for a roster of .upl files</div>
+            </div>
+            <div class="app-card home-card" onclick="switchView('report')">
+              <i class="ti ti-file-report" style="font-size:22px;color:var(--accent);" aria-hidden="true"></i>
+              <div style="color:var(--text);font-size:14px;font-weight:500;margin-top:10px;">Bot Reporting</div>
+              <div style="color:var(--text-muted);font-size:12px;margin-top:4px;line-height:1.5;">Generate an HTML
+                roster report with portraits and stats</div>
+            </div>
+            <div class="app-card home-card" onclick="switchView('browser')">
+              <i class="ti ti-search" style="font-size:22px;color:var(--accent);" aria-hidden="true"></i>
+              <div style="color:var(--text);font-size:14px;font-weight:500;margin-top:10px;">Bot Inspector</div>
+              <div style="color:var(--text-muted);font-size:12px;margin-top:4px;line-height:1.5;">Inspect and edit
+                individual bots from a directory</div>
+            </div>
+          </div>
+          <div
+            style="margin-top:24px;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:14px 18px;display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);">
+            <span>Voicepacks Detected: <span style="color:var(--text);">104 voices</span></span>
+            <span>Weapons Detected: <span style="color:var(--text);">19 weapons</span></span>
+            <span>UT2004Path: <span style="color:var(--text);">C:\UnrealTournament2004</span></span>
+          </div>
+        </div>
+
+        <!-- CONFIGURE BOTS VIEW -->
+        <div id="view-configure" class="app-main">
+          <div class="app-page-header">
+            <h1 class="app-page-title">Configure Bots</h1>
+            <div>
+              <span>Target:</span>
+              <input type="text" value="C:\UnrealTournament2004\System" style="width:300px;" />
+              <button class="app-button" onclick="alert('Browse directory dialog simulation')">Browse</button>
+            </div>
+          </div>
+          <div class="app-subtitle">Batch-configure skill ranges, weapons, shared attributes and apply combat roles
+            across an entire roster.</div>
+
+          <div style="display:flex;gap:8px;margin-bottom:30px;">
+            <button class="config-group-btn active" data-group="pools" onclick="switchConfigGroup('pools')">Attribute
+              Pools</button>
+            <button class="config-group-btn" data-group="assignment" onclick="switchConfigGroup('assignment')">Skill
+              Assignment</button>
+          </div>
+
+          <div class="app-tabs" id="pools-tabs">
+            <button class="app-tab active" data-tab="options" onclick="selectConfigureTab('options')">Options</button>
+            <button class="app-tab" data-tab="voices" onclick="selectConfigureTab('voices')">Voices</button>
+            <button class="app-tab" data-tab="weapons" onclick="selectConfigureTab('weapons')">Weapons</button>
+          </div>
+          <div class="app-tabs" id="assignment-tabs" style="display:none;">
+            <button class="app-tab" data-tab="skills" onclick="selectConfigureTab('skills')">Combat Skills</button>
+            <button class="app-tab" data-tab="roles" onclick="selectConfigureTab('roles')">Combat Roles</button>
+          </div>
+
+          <div style="flex:1;overflow-y:auto;padding-bottom:12px;display:flex;flex-direction:column;">
+            <!-- Options Tab -->
+            <div id="subview-options" class="sub-view active">
+              <div style="color:var(--text-secondary);font-size:12px;margin-bottom:12px;">Select general attributes to
+                apply a single value uniformly across the entire roster or create mini-pools for random assignment</div>
+              <div class="app-card">
+                <div class="app-section-title">General attributes</div>
+                <div style="display:flex;flex-direction:column;gap:10px;" id="player-attributes-container">
+                  <div class="settings-row">
+                    <div style="color:var(--text-secondary);font-size:12px;margin-bottom:5px;">Menu</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:5px;" id="chip-group-menu">
+                      <span class="app-chip">"SP" <span style="cursor:pointer;"
+                          onclick="this.parentElement.remove()">✕</span></span>
+                      <span class="app-chip add" onclick="addChip('chip-group-menu')">+ add option</span>
+                    </div>
+                  </div>
+                  <div class="settings-row">
+                    <div style="color:var(--text-secondary);font-size:12px;margin-bottom:5px;">BotUse</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:5px;" id="chip-group-botuse">
+                      <span class="app-chip">1 <span style="cursor:pointer;"
+                          onclick="this.parentElement.remove()">✕</span></span>
+                      <span class="app-chip">2 <span style="cursor:pointer;"
+                          onclick="this.parentElement.remove()">✕</span></span>
+                      <span class="app-chip add" onclick="addChip('chip-group-botuse')">+ add option</span>
+                    </div>
+                  </div>
+                  <div class="settings-row">
+                    <div style="color:var(--text-secondary);font-size:12px;margin-bottom:5px;">Species</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:5px;" id="chip-group-species">
+                      <span class="app-chip">xGame.SPECIES_Merc <span style="cursor:pointer;"
+                          onclick="this.parentElement.remove()">✕</span></span>
+                      <span class="app-chip">XGame.SPECIESSkaarj <span style="cursor:pointer;"
+                          onclick="this.parentElement.remove()">✕</span></span>
+                      <span class="app-chip add" onclick="addChip('chip-group-species')">+ add option</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="margin:16px 0 12px;padding-top:5px;">
+                  <div style="color:var(--text-secondary);font-size:12px;margin-bottom:5px;">SET CASING ('mALE' -->
+                    'Male')</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:5px;" id="chip-group-casing"></div>
+                  <div>
+                    <div style="color:var(--text-secondary);font-size:12px;margin-bottom:5px;">Sex</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:5px;" id="normalize-chips-sex">
+                      <span class="app-chip">Male <span style="cursor:pointer;"
+                          onclick="this.parentElement.remove()">✕</span></span>
+                      <span class="app-chip">Female <span style="cursor:pointer;"
+                          onclick="this.parentElement.remove()">✕</span></span>
+                      <span class="app-chip add" onclick="addNormalizeKey()">+ Add option</span>
+                      <span class="app-chip add" onclick="addNewNormalizeCategory()"
+                        style="border-style:solid;background:var(--surface-2);">+ Add New</span>
+                    </div>
+                  </div>
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Voices Tab -->
+            <div id="subview-voices" class="sub-view">
+              <div
+                style="color:var(--text-secondary);font-size:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+                <span>Select which voices can be chosen for random assignment.</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;">By default voices are
+                  assigned according to bot Sex. Override? <input type="checkbox" id="voices-override"></span>
+              </div>
+              <!-- Voices Tab: replace static role-item divs -->
+              <div class="app-grid-2">
+                <div class="app-card">
+                  <div class="app-section-title">Available voices</div>
+                  <div class="role-list" id="voices-available-list"></div>
+                </div>
+                <div class="app-card">
+                  <div class="app-section-title">Active Voices</div>
+                  <div class="role-list" id="voices-selected-list"></div>
+                </div>
+              </div>
+              <div class="app-grid-2" style="margin-top:8px;">
+                <div style="display:flex;justify-content:flex-end;">
+                  <button class="app-button" onclick="addVoicesToActive()">Add</button>
+                </div>
+                <div style="display:flex;justify-content:flex-end;">
+                  <button class="app-button" onclick="removeVoicesFromActive()">Remove</button>
+                </div>
+              </div>
+            </div>
+            <!-- Weapons Tab -->
+            <div id="subview-weapons" class="sub-view">
+              <div style="color:var(--text-secondary);font-size:12px;margin-bottom:12px;">Select which weapons can be
+                chosen for random assignment.</div>
+              <!-- Weapons Tab: replace static role-item divs -->
+              <div class="app-grid-2">
+                <div class="app-card">
+                  <div class="app-section-title">Available weapons</div>
+                  <div class="role-list" id="weapons-available-list"></div>
+                </div>
+                <div class="app-card">
+                  <div class="app-section-title">Active Weapons</div>
+                  <div class="role-list" id="weapons-selected-list"></div>
+                </div>
+              </div>
+              <div class="app-grid-2" style="margin-top:8px;">
+                <div style="display:flex;justify-content:flex-end;">
+                  <button class="app-button" onclick="addWeaponsToActive()">Add</button>
+                </div>
+                <div style="display:flex;justify-content:flex-end;">
+                  <button class="app-button" onclick="removeWeaponsFromActive()">Remove</button>
+                </div>
+              </div>
+            </div>
+            <!-- Combat Skills Tab -->
+            <div id="subview-skills" class="sub-view">
+              <div style="color:var(--text-secondary);font-size:12px;margin-bottom:12px;">Each skill is rolled at
+                random, between the low and high values set here.</div>
+              <div
+                style="background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;"
+                id="combat-skills-grid">
+                <!-- Dynamically populated with reduced vertical spacing -->
+              </div>
+            </div>
+            <!-- Combat Roles Tab -->
+            <div id="subview-roles" class="sub-view">
+              <div style="color:var(--text-secondary);font-size:12px;margin-bottom:12px;">Combat Roles are pre-defined
+                sets of combat skills that can be selectively applied across your roster.</div>
+
+              <div
+                style="display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12px;color:var(--text-secondary);margin-bottom:14px;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span>Assign a Role every</span>
+                  <input type="text" id="role-frequency-input" value="3" style="width:40px;text-align:center;">
+                  <span>bots.</span>
+                </div>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                  <span>Use Combat Roles</span>
+                  <input type="checkbox" id="use-combat-roles" checked onchange="toggleCombatRoles()">
+                </label>
+              </div>
+
+              <div id="combat-roles-body">
+                <div class="app-grid-2">
+                  <div class="app-card">
+                    <div class="app-section-title"
+                      style="display:flex;justify-content:space-between;align-items:center;">
+                      <span>Available Roles</span>
+                      <button onclick="addNewRole()"
+                        style="background:var(--accent);color:#fff;border:none;border-radius:3px;padding:3px 7px;font-size:10px;">+
+                        New</button>
+                    </div>
+                    <div class="role-list" id="roles-available-list"></div>
+                  </div>
+                  <div class="app-card">
+                    <div class="app-section-title">Active Roles</div>
+                    <div class="role-list" id="roles-active-list"></div>
+                  </div>
+                </div>
+
+                <div class="app-grid-2" style="margin-top:8px;">
+                  <div style="display:flex;justify-content:flex-end;">
+                    <button class="app-button" onclick="addRoleToActive()">Add</button>
+                  </div>
+                  <div style="display:flex;justify-content:flex-end;">
+                    <button class="app-button" onclick="removeRoleFromActive()">Remove</button>
+                  </div>
+                </div>
+
+                <div class="app-card" style="margin-top:16px;">
+                  <div style="color:var(--text-muted);font-size:11px;text-transform:uppercase;margin-bottom:8px;">
+                    Selected Role Values</div>
+                  <div
+                    style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px 16px;font-size:11px;margin-bottom:12px;">
+                    <div style="color:var(--text-muted);">Accuracy <input type="number" id="edit-role-accuracy"
+                        step="0.1" style="width:100%;margin-top:3px;" oninput="saveActiveRoleEdits()"></div>
+                    <div style="color:var(--text-muted);">Tactics <input type="number" id="edit-role-tactics" step="0.1"
+                        style="width:100%;margin-top:3px;" oninput="saveActiveRoleEdits()"></div>
+                    <div style="color:var(--text-muted);">Aggressiveness <input type="number"
+                        id="edit-role-aggressiveness" step="0.1" style="width:100%;margin-top:3px;"
+                        oninput="saveActiveRoleEdits()"></div>
+                    <div style="color:var(--text-muted);">ReactionTime <input type="number" id="edit-role-reaction"
+                        step="0.1" style="width:100%;margin-top:3px;" oninput="saveActiveRoleEdits()"></div>
+                    <div style="color:var(--text-muted);">CombatStyle <input type="number" id="edit-role-style"
+                        step="0.1" style="width:100%;margin-top:3px;" oninput="saveActiveRoleEdits()"></div>
+                    <div style="color:var(--text-muted);">TransLocUse <input type="number" id="edit-role-trans"
+                        step="0.1" style="width:100%;margin-top:3px;" oninput="saveActiveRoleEdits()"></div>
+                    <div style="color:var(--text-muted);grid-column:span 2;">Favorite weapon
+                      <select id="edit-role-weapon" style="width:100%;margin-top:3px;" onchange="saveActiveRoleEdits()">
+                        <option value="xweapons.sniperrifle">Lightning Gun</option>
+                        <option value="xweapons.flakcannon">Flak Cannon</option>
+                        <option value="xweapons.linkgun">Link Gun</option>
+                        <option value="xweapons.shieldgun">Shield Gun</option>
+                        <option value="xweapons.minigun">Minigun</option>
+                        <option value="xweapons.rocketlauncher">Rocket Launcher</option>
+                        <option value="xweapons.biorifle">Bio Rifle</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:6px;">
+                    <button class="app-button" onclick="alert('Role saved!')">Save</button>
+                    <button class="app-button" onclick="deleteCurrentRole()">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Persistent Configure Bots Button at Bottom-Right -->
+            <div
+              style="display:flex;justify-content:flex-end;margin-top:auto;padding-top:12px;border-top:1px solid var(--border);">
+              <button class="app-button-prominent"
+                onclick="alert('Configuration built and applied successfully!')">Configure Bots</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOT REPORTING VIEW -->
+        <div id="view-report" class="app-main">
+          <div class="app-page-header">
+            <h1 class="app-page-title">Bot Reporting</h1>
+            <div>
+              <span>Output:</span>
+              <input type="text" value="C:\Docs\report.html" style="width:300px;" />
+              <button class="app-button" onclick="alert('Browse file dialog simulation')">Browse</button>
+            </div>
+          </div>
+          <div class="app-subtitle">Generate an HTML roster report with portraits and stats.</div>
+
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div class="app-card">
+              <div class="app-section-title">Display options</div>
+              <div style="display:flex;flex-direction:column;gap:10px;font-size:12px;">
+                <div class="settings-row" style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="color:var(--text-secondary);">Report Mode</span>
+                  <select id="rep-mode">
+                    <option value="Full" selected>Full</option>
+                    <option value="Players">Players</option>
+                    <option value="Summary">Summary</option>
+                  </select>
+                </div>
+                <div class="settings-row" style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="color:var(--text-secondary);">Include portrait</span>
+                  <select id="rep-portrait">
+                    <option value="Yes" selected>Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+
+                <div class="settings-row" style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="color:var(--text-secondary);">Group Bots</span>
+                  <select id="rep-group">
+                    <option value="None" selected>(none)</option>
+                    <option value="Race">Race</option>
+                    <option value="Species">Species</option>
+                    <option value="Favorite Weapon">Favorite Weapon</option>
+                    <option value="Other">Other&hellip;</option>
+                  </select>
+                </div>
+                <div class="settings-row" style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="color:var(--text-secondary);">Include Translocator Use in Combat Rating</span>
+                  <select id="rep-trans">
+                    <option value="Yes">Yes</option>
+                    <option value="No" selected>No</option>
+                  </select>
+                </div>
+                <div class="settings-row" style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="color:var(--text-secondary);">Theme</span>
+                  <select id="rep-theme">
+                    <option value="dark" selected>Dark</option>
+                    <option value="light">Light</option>
+                  </select>
+                </div>
+                <div class="settings-row" style="display:flex;flex-direction:column;gap:6px;">
+                  <div style="color:var(--text-muted);font-size:11px;text-transform:uppercase;margin-bottom:4px;">
+                    Extraction options</div>
+                  <label
+                    style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);"><input
+                      type="checkbox" id="rep-force-extract"> Force re-extract portraits (overwrites existing
+                    files)</label>
+                  <label
+                    style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);"><input
+                      type="checkbox" id="rep-refresh-voices"> Refresh stock voice cache</label>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;">
+              <button class="app-button" style="width:30%;padding:9px;"
+                onclick="alert('Report generated successfully!')">Generate Report</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOT BROWSER VIEW -->
+        <div id="view-browser" class="app-main">
+          <div class="app-page-header">
+            <h1 class="app-page-title">Bot Inspector</h1>
+            <div>
+              <span>Source:</span>
+              <input type="text" id="browser-source-path" value="Choose a file or a folder" style="width:300px;"
+                readonly>
+              <button class="app-button" onclick="loadBotSource()">Load</button>
+            </div>
+          </div>
+          <div class="app-subtitle">Inspect and edit individual bots.</div>
+          <div style="display:flex;flex:1;min-height:0;">
+            <div class="browser-list">
+              <div id="browser-quicklist" class="quicklist">
+                <div class="quicklist-item active" onclick="selectBot(0)">Indominus</div>
+                <div class="quicklist-item" onclick="selectBot(1)">Hyena</div>
+                <div class="quicklist-item" onclick="selectBot(2)">Arcee</div>
+                <div class="quicklist-item" onclick="selectBot(3)">SyN3rGy</div>
+                <div class="quicklist-item" onclick="selectBot(4)">Seronique</div>
+                <div class="quicklist-item" onclick="selectBot(5)">God-Horus</div>
+              </div>
+            </div>
+            <div class="portrait-panel">
+              <div class="portrait"><img id="bot-portrait-img" src="portrait1.png" alt="Portrait"></div>
+              <div id="browser-bot-name" style="margin-top:8px;color:var(--text);font-size:12px;font-weight:500;">
+                Abbraxon</div>
+              <span id="browser-bot-role"
+                style="background:var(--accent);color:#fff;padding:2px 8px;font-size:10px;font-weight:600;text-transform:uppercase;border-radius:2px;margin-top:4px;"></span>
+            </div>
+            <div style="flex:1;padding:18px 22px;display:flex;flex-direction:column;min-width:0;">
+              <div class="app-tabs">
+                <button class="app-tab active" onclick="switchBrowserTab('details')">Details</button>
+                <button class="app-tab" onclick="switchBrowserTab('skills')">Skills</button>
+                <button class="app-tab" onclick="switchBrowserTab('appearance')">Appearance</button>
+              </div>
+
+              <!-- Details Tab: Contains ONLY the 8 detail fields and Bio Data box -->
+              <div id="browser-sub-details" class="sub-view active">
+                <div
+                  style="display:inline-block;background:var(--surface-2);border:1px solid var(--border-strong);border-radius:3px;padding:3px 8px;color:var(--text-secondary);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">
+                  Identity</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;font-size:12px;margin-bottom:14px;">
+                  <div style="color:var(--text-muted);">Name <span
+                      style="background:var(--surface-2);padding:6px;border-radius:3px;color:var(--text-secondary);float:right;"
+                      id="det-name">Abbraxon</span></div>
+                  <div style="color:var(--text-muted);">Race <span
+                      style="background:var(--surface-2);padding:6px;border-radius:3px; color:var(--text-secondary);float:right;"
+                      id="det-race">Space Marine</span></div>
+                  <div style="color:var(--text-muted);">Sex <span
+                      style="background:var(--surface-2);padding:6px;border-radius:3px; color:var(--text-secondary);float:right;"
+                      id="det-sex">Male</span></div>
+                  <div style="color:var(--text-muted);">Species <span
+                      style="background:var(--surface-2);padding:6px;border-radius:3px;color:var(--text-secondary);float:right;"
+                      id="det-species">xGame.SPECIES_Alien</span></div>
+                  <div style="color:var(--text-muted);">Voice <span
+                      style="background:var(--surface-2);padding:6px;border-radius:3px;color:var(--text-secondary);float:right;"
+                      id="det-voice">spacemarines w40k</span></div>
+                  <div style="color:var(--text-muted);">Favorite Weapon <span
+                      style="background:var(--surface-2);padding:6px;border-radius:3px; color:var(--text-secondary);float:right;"
+                      id="det-weapon">Flak Cannon</span></div>
+                  <div style="color:var(--text-muted);display:flex;align-items:center;justify-content:space-between;">
+                    Combat Role
+                    <select id="det-role-select" style="width:60%;" onchange="updateBotRoleBadge()">
+                      <option value="Yes" selected>Yes</option>
+                    </select>
+                  </div>
+                </div>
+                <div
+                  style="display:inline-block;background:var(--surface-2);border:1px solid var(--border-strong);border-radius:3px;padding:3px 8px;color:var(--text-secondary);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">
+                  Game Logic</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;font-size:12px;margin-bottom:12px;">
+                  <div style="color:var(--text-muted);">Menu <span style="color:var(--text-secondary);float:right;"
+                      id="det-menu">"SP"</span></div>
+                  <div style="color:var(--text-muted);"><i class="ti ti-lock" style="font-size:11px;margin-right:4px;"
+                      aria-hidden="true"></i>Salary <span
+                      style="color:var(--text-secondary);float:right;font-style:italic;" id="det-salary">932
+                      Credits</span></div>
+                </div>
+
+                <div
+                  style="flex:1;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:12px;display:flex;flex-direction:column;min-height:120px;">
+                  <div
+                    style="color:var(--text-faint);font-size:10px;text-transform:uppercase;margin-bottom:6px;letter-spacing:.5px;">
+                    Bio Data</div>
+                  <div id="det-biodata"
+                    style="font-size:12px;line-height:1.5;color:var(--text-secondary);overflow-y:auto;flex:1;">
+                    Random Text 1
+                  </div>
+                </div>
+              </div>
+
+              <!-- Skills Tab: Strictly isolated from Details fields and Bio Data -->
+              <div id="browser-sub-skills" class="sub-view">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;">
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Accuracy</div><input
+                      type="number" id="skill-accuracy" value="1.42" step="0.05" oninput="recalculateSkills()"
+                      style="width:100%;">
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Jumpiness</div><input
+                      type="number" id="skill-jumpiness" value="0.55" step="0.05" oninput="recalculateSkills()"
+                      style="width:100%;">
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">StrafingAbility</div><input
+                      type="number" id="skill-strafing" value="0.98" step="0.05" oninput="recalculateSkills()"
+                      style="width:100%;">
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Tactics</div><input
+                      type="number" id="skill-tactics" value="1.31" step="0.05" oninput="recalculateSkills()"
+                      style="width:100%;">
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Aggressiveness</div><input
+                      type="number" id="skill-aggressiveness" value="0.71" step="0.05" oninput="recalculateSkills()"
+                      style="width:100%;">
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">CombatStyle</div><input
+                      type="number" id="skill-style" value="0.62" step="0.05" oninput="recalculateSkills()"
+                      style="width:100%;">
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">ReactionTime</div><input
+                      type="number" id="skill-reaction" value="0.77" step="0.05" oninput="recalculateSkills()"
+                      style="width:100%;">
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">TransLocUse</div><input
+                      type="number" id="skill-trans" value="0.68" step="0.05" oninput="recalculateSkills()"
+                      style="width:100%;">
+                  </div>
+                </div>
+
+                <div
+                  style="margin-top:16px;background:var(--surface-1);border:1px solid var(--border);border-radius:6px;padding:14px;">
+                  <div
+                    style="color:var(--text-faint);font-size:10px;text-transform:uppercase;margin-bottom:6px;letter-spacing:.5px;">
+                    Calculated Ratings</div>
+                  <div style="color:var(--text-faint);font-size:11px;margin-bottom:10px;line-height:1.4;">These values
+                    are computed automatically from the skill inputs above and can't be edited directly.</div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:bold;">
+                      <span style="color:var(--text-secondary);text-transform:uppercase;"><i class="ti ti-lock"
+                          style="font-size:12px;margin-right:4px;" aria-hidden="true"></i>Combat Rating</span>
+                      <span id="calc-combat-rating"
+                        style="color:var(--text);font-size:15px;font-style:italic;">78%</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;font-size:12px;">
+                      <span style="color:var(--text-muted);"><i class="ti ti-lock"
+                          style="font-size:11px;margin-right:4px;" aria-hidden="true"></i>Agility</span>
+                      <span id="calc-agility" style="color:var(--text-secondary);font-style:italic;">61%</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;font-size:12px;">
+                      <span style="color:var(--text-muted);"><i class="ti ti-lock"
+                          style="font-size:11px;margin-right:4px;" aria-hidden="true"></i>Aggressiveness</span>
+                      <span id="calc-aggressiveness" style="color:var(--text-secondary);font-style:italic;">62%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Appearance Tab: Strictly isolated from Details fields and Bio Data -->
+              <div id="browser-sub-appearance" class="sub-view">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;font-size:12px;">
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Mesh</div>
+                    <div style="background:var(--surface-2);padding:6px;border-radius:3px;" id="app-mesh">
+                      SpaceMarineMale</div>
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Body Skin</div>
+                    <div style="background:var(--surface-2);padding:6px;border-radius:3px;" id="app-body">
+                      AstartesTex.Astartes_Body</div>
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Face Skin</div>
+                    <div style="background:var(--surface-2);padding:6px;border-radius:3px;" id="app-face">
+                      AstartesTex.Astartes_Face</div>
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Team Face</div>
+                    <div style="background:var(--surface-2);padding:6px;border-radius:3px;" id="app-team">
+                      AstartesTex.Astartes_TeamFace</div>
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Portrait</div>
+                    <div style="background:var(--surface-2);padding:6px;border-radius:3px;" id="app-port">
+                      AstartesTex.Astartes_ASM</div>
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Skeleton</div>
+                    <div style="background:var(--surface-2);padding:6px;border-radius:3px;" id="app-skel">SkeletonMaleA
+                    </div>
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Ragdoll</div>
+                    <div style="background:var(--surface-2);padding:6px;border-radius:3px;" id="app-rag">RagdollMaleA
+                    </div>
+                  </div>
+                  <div>
+                    <div style="color:var(--text-muted);font-size:11px;margin-bottom:3px;">Use Specular</div>
+                    <div style="background:var(--surface-2);padding:6px;border-radius:3px;" id="app-spec">Enabled</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            style="display:flex;justify-content:flex-end;margin-top:auto;padding-top:12px;border-top:1px solid var(--border);">
+            <button class="app-button-prominent" onclick="alert('Bot saved!')">Save</button>
+          </div>
+        </div>
+
+        <!-- SETTINGS VIEW -->
+        <div id="view-settings" class="app-main">
+          <h1 class="app-page-title" style="margin-bottom:6px;">Settings</h1>
+          <div class="app-subtitle">Manage install paths.</div>
+          <div style="max-width:480px;">
+            <div class="app-card" style="display:flex;flex-direction:column;gap:12px;">
+              <div class="app-section-title">General</div>
+              <div style="font-size:12px;">
+                <div style="color:var(--text-muted);margin-bottom:3px;">UT2004 install path</div>
+                <div
+                  style="background:var(--surface-2);border:1px solid var(--border-strong);border-radius:3px;padding:6px 8px;color:var(--text-secondary);">
+                  C:\UnrealTournament2004</div>
+              </div>
+              <div style="font-size:12px;">
+                <div style="color:var(--text-muted);margin-bottom:3px;">Default UPL Directory</div>
+                <div
+                  style="background:var(--surface-2);border:1px solid var(--border-strong);border-radius:3px;padding:6px 8px;color:var(--text-secondary);">
+                  C:\UnrealTournament2004\System</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme Switcher implementation
+    function changeTheme(theme) {
+      const body = document.body;
+      const dropdown = document.getElementById('theme-dropdown');
+      let isLight;
+
+      if (theme === 'light') {
+        isLight = true;
+      } else if (theme === 'dark') {
+        isLight = false;
+      } else {
+        isLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      }
+
+      body.classList.toggle('light-theme', isLight);
+      body.style.colorScheme = isLight ? 'light' : 'dark';
+      dropdown.style.colorScheme = isLight ? 'light' : 'dark';
+    }
+
+    changeTheme('dark');
+
+    // Navigation logic
+    const navItems = document.querySelectorAll('.app-nav');
+    const views = document.querySelectorAll('.app-main');
+
+    function switchView(viewId) {
+      navItems.forEach(nav => {
+        if (nav.dataset.view === viewId) nav.classList.add('active');
+        else nav.classList.remove('active');
+      });
+      views.forEach(view => {
+        if (view.id === 'view-' + viewId) view.classList.add('active');
+        else view.classList.remove('active');
+      });
+    }
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        switchView(item.dataset.view);
+      });
+    });
+
+    // Configure Bot Group Toggle + Sub-tabs
+    function switchConfigGroup(group) {
+      document.querySelectorAll('.config-group-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.group === group);
+      });
+      document.getElementById('pools-tabs').style.display = group === 'pools' ? 'flex' : 'none';
+      document.getElementById('assignment-tabs').style.display = group === 'assignment' ? 'flex' : 'none';
+      selectConfigureTab(group === 'pools' ? 'options' : 'skills');
+    }
+
+    function selectConfigureTab(tabId) {
+      document.querySelectorAll('#view-configure .app-tab').forEach(t => t.classList.remove('active'));
+      const btn = document.querySelector(`#view-configure .app-tab[data-tab="${tabId}"]`);
+      if (btn) btn.classList.add('active');
+      ['options', 'voices', 'weapons', 'skills', 'roles'].forEach(id => {
+        const el = document.getElementById('subview-' + id);
+        if (id === tabId) el.classList.add('active');
+        else el.classList.remove('active');
+      });
+    }
+
+    // Add Option Chips Dynamically
+    function addChip(containerId) {
+      const container = document.getElementById(containerId);
+      const addBtn = container.querySelector('.app-chip.add');
+      const val = prompt('Enter new option value:');
+      if (val) {
+        const chip = document.createElement('span');
+        chip.className = 'app-chip';
+        chip.innerHTML = `${val} <span style="cursor:pointer;" onclick="this.parentElement.remove()">✕</span>`;
+        container.insertBefore(chip, addBtn);
+      }
+    }
+
+    function addNormalizeKey() {
+      const container = document.getElementById('normalize-chips-sex');
+      const addBtn = container.querySelector('.app-chip.add');
+      const val = prompt('Enter alternate key casing variant (e.g. mALE):');
+      if (val) {
+        const chip = document.createElement('span');
+        chip.className = 'app-chip';
+        chip.innerHTML = `${val} <span style="cursor:pointer;" onclick="this.parentElement.remove()">✕</span>`;
+        container.insertBefore(chip, addBtn);
+      }
+    }
+
+    function addNewNormalizeCategory() {
+      const cat = prompt('Enter new attribute name to normalize (e.g. Country):');
+      if (cat) {
+        alert(`Created normalization group for "${cat}".`);
+      }
+    }
+
+    // Combat Skills Ranges generation with reduced vertical spacing
+    const combatSkillsConfig = [
+      { name: 'Accuracy', min: 0.5, max: 1.8, rangeMin: 0, rangeMax: 2, step: 0.05 },
+      { name: 'Reaction Time', min: 0.64, max: 0.82, rangeMin: 0, rangeMax: 1, step: 0.01 },
+      { name: 'Aggressiveness', min: -0.5, max: 0.9, rangeMin: -1, rangeMax: 1, step: 0.05 },
+      { name: 'Strafing Ability', min: 0.0, max: 1.0, rangeMin: 0, rangeMax: 1, step: 0.05 },
+      { name: 'Combat Style', min: -1.5, max: 1.5, rangeMin: -2, rangeMax: 2, step: 0.1 },
+      { name: 'Tactics', min: 0.6, max: 1.8, rangeMin: 0, rangeMax: 2, step: 0.05 },
+      { name: 'Jumpiness', min: -1.0, max: 0.5, rangeMin: -1, rangeMax: 1, step: 0.05 },
+      { name: 'TransLocUse', min: 0.2, max: 0.9, rangeMin: 0, rangeMax: 1, step: 0.05 }
+    ];
+
+    function renderCombatSkills() {
+      const grid = document.getElementById('combat-skills-grid');
+      grid.innerHTML = '';
+      combatSkillsConfig.forEach((skill, idx) => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;">
+        <span style="color:var(--text);font-weight:500;">${skill.name}</span>
+        <span style="color:var(--text);" id="skill-val-${idx}">${skill.min.toFixed(2)} &ndash; ${skill.max.toFixed(2)}</span>
+      </div>
+      <div class="dual-slider">
+        <div class="dual-slider-track"></div>
+        <div class="dual-slider-range" id="slider-range-${idx}"></div>
+        <input type="range" class="dual-slider-input" min="${skill.rangeMin}" max="${skill.rangeMax}" step="${skill.step}" value="${skill.min}" id="slider-low-${idx}" oninput="updateRangeText(${idx})">
+        <input type="range" class="dual-slider-input" min="${skill.rangeMin}" max="${skill.rangeMax}" step="${skill.step}" value="${skill.max}" id="slider-high-${idx}" oninput="updateRangeText(${idx})">
+      </div>
+    `;
+        grid.appendChild(div);
+      });
+      combatSkillsConfig.forEach((skill, idx) => updateSliderFill(idx));
+    }
+
+    function updateSliderFill(idx) {
+      const skill = combatSkillsConfig[idx];
+      const lowInput = document.getElementById(`slider-low-${idx}`);
+      const highInput = document.getElementById(`slider-high-${idx}`);
+      const fill = document.getElementById(`slider-range-${idx}`);
+      const span = skill.rangeMax - skill.rangeMin;
+      const lowPct = ((parseFloat(lowInput.value) - skill.rangeMin) / span) * 100;
+      const highPct = ((parseFloat(highInput.value) - skill.rangeMin) / span) * 100;
+      fill.style.left = lowPct + '%';
+      fill.style.right = (100 - highPct) + '%';
+    }
+
+    function updateRangeText(idx) {
+      const lowInput = document.getElementById(`slider-low-${idx}`);
+      const highInput = document.getElementById(`slider-high-${idx}`);
+      let low = parseFloat(lowInput.value);
+      let high = parseFloat(highInput.value);
+      if (low > high) {
+        if (document.activeElement === lowInput) { highInput.value = low; }
+        else { lowInput.value = high; }
+        low = parseFloat(lowInput.value);
+        high = parseFloat(highInput.value);
+      }
+      document.getElementById(`skill-val-${idx}`).innerHTML = `${low.toFixed(2)} &ndash; ${high.toFixed(2)}`;
+      updateSliderFill(idx);
+    }
+
+    renderCombatSkills();
+
+    function updateRangeText(idx) {
+      const lowInput = document.getElementById(`slider-low-${idx}`);
+      const highInput = document.getElementById(`slider-high-${idx}`);
+      let low = parseFloat(lowInput.value);
+      let high = parseFloat(highInput.value);
+      if (low > high) { const temp = low; low = high; high = temp; }
+      document.getElementById(`skill-val-${idx}`).innerHTML = `${low.toFixed(2)} &ndash; ${high.toFixed(2)}`;
+    }
+
+    renderCombatSkills();
+
+    // Voices/Weapons Multi-Select State & Interaction
+    const voicesData = [
+      { name: 'Male Mercenary', active: false },
+      { name: 'Female Mercenary', active: false },
+      { name: 'Male Juggernaut', active: false },
+      { name: 'Female Juggernaut', active: false },
+      { name: 'Male Night', active: false },
+      { name: 'Female Night', active: false },
+      { name: 'UT3 Lauren', active: true },
+      { name: 'UT3 Necris Female', active: true }
+    ];
+    const selectedVoices = new Set();
+
+    const weaponsData = [
+      { name: 'Shock Rifle', active: true },
+      { name: 'Link Gun', active: true },
+      { name: 'Rocket Launcher', active: false },
+      { name: 'Flak Cannon', active: false },
+      { name: 'Minigun', active: false },
+      { name: 'Lightning Gun', active: false }
+    ];
+    const selectedWeapons = new Set();
+
+    function renderMultiSelectList(containerId, data, activeFilter, selectedSet, toggleFn) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      data.forEach((item, idx) => {
+        if (item.active !== activeFilter) return;
+        const div = document.createElement('div');
+        div.className = `role-item ${selectedSet.has(idx) ? 'selected' : ''}`;
+        div.innerHTML = `<span>${item.name}</span>`;
+        div.onclick = () => toggleFn(idx);
+        container.appendChild(div);
+      });
+    }
+
+    function toggleVoiceSelection(idx) {
+      selectedVoices.has(idx) ? selectedVoices.delete(idx) : selectedVoices.add(idx);
+      renderVoices();
+    }
+
+    function toggleWeaponSelection(idx) {
+      selectedWeapons.has(idx) ? selectedWeapons.delete(idx) : selectedWeapons.add(idx);
+      renderWeapons();
+    }
+
+    function renderVoices() {
+      renderMultiSelectList('voices-available-list', voicesData, false, selectedVoices, toggleVoiceSelection);
+      renderMultiSelectList('voices-selected-list', voicesData, true, selectedVoices, toggleVoiceSelection);
+    }
+
+    function renderWeapons() {
+      renderMultiSelectList('weapons-available-list', weaponsData, false, selectedWeapons, toggleWeaponSelection);
+      renderMultiSelectList('weapons-selected-list', weaponsData, true, selectedWeapons, toggleWeaponSelection);
+    }
+
+    function addVoicesToActive() {
+      selectedVoices.forEach(idx => voicesData[idx].active = true);
+      selectedVoices.clear();
+      renderVoices();
+    }
+
+    function removeVoicesFromActive() {
+      selectedVoices.forEach(idx => voicesData[idx].active = false);
+      selectedVoices.clear();
+      renderVoices();
+    }
+
+    function addWeaponsToActive() {
+      selectedWeapons.forEach(idx => weaponsData[idx].active = true);
+      selectedWeapons.clear();
+      renderWeapons();
+    }
+
+    function removeWeaponsFromActive() {
+      selectedWeapons.forEach(idx => weaponsData[idx].active = false);
+      selectedWeapons.clear();
+      renderWeapons();
+    }
+
+    // Combat Roles State & Interaction
+    const combatRolesData = [
+      { name: 'Sniper', accuracy: 2.00, tactics: 1.50, aggressiveness: 0.10, reaction: 1.80, style: -1.50, trans: 0.20, jumpiness: 0.10, strafing: 1.50, weapon: 'XWeapons.SniperRifle', active: true },
+      { name: 'Perimeter Guard', accuracy: 0.50, tactics: 1.80, aggressiveness: 0.20, reaction: 0.50, style: 0.00, trans: 0.60, jumpiness: 0.20, strafing: 0.00, weapon: 'XWeapons.BioRifle', active: false },
+      { name: 'Close-Quarters Combatant', accuracy: 1.50, tactics: 1.20, aggressiveness: 0.25, reaction: 0.80, style: 0.90, trans: 0.40, jumpiness: 0.15, strafing: 1.20, weapon: 'XWeapons.FlakCannon', active: false },
+      { name: 'Artillery Support', accuracy: 0.75, tactics: 1.50, aggressiveness: 0.50, reaction: 1.20, style: -0.80, trans: 0.30, jumpiness: 0.30, strafing: 0.20, weapon: 'XWeapons.RocketLauncher', active: false },
+      { name: 'Standard Infantry', accuracy: 0.50, tactics: 0.50, aggressiveness: 0.50, reaction: 0.50, style: 0.00, trans: 0.50, jumpiness: 0.50, strafing: 0.50, weapon: 'XWeapons.LinkGun', active: false },
+      { name: 'Skirmisher', accuracy: 0.20, tactics: 0.20, aggressiveness: 0.55, reaction: 0.60, style: 0.85, trans: 0.90, jumpiness: 0.95, strafing: 1.30, weapon: 'XWeapons.FlakCannon', active: false },
+      { name: 'Aggressive Camper', accuracy: 1.80, tactics: 0.80, aggressiveness: 0.90, reaction: 1.90, style: -1.20, trans: 0.10, jumpiness: 0.05, strafing: -0.50, weapon: 'XWeapons.Minigun', active: false },
+      { name: 'Assault Breaker', accuracy: 1.00, tactics: 1.40, aggressiveness: 0.85, reaction: 1.10, style: 0.10, trans: 0.50, jumpiness: 0.50, strafing: 1.00, weapon: 'XWeapons.LinkGun', active: false },
+      { name: 'Berserker', accuracy: 0.40, tactics: -0.50, aggressiveness: 0.98, reaction: -0.20, style: 1.50, trans: 1.00, jumpiness: 1.00, strafing: 2.00, weapon: 'XWeapons.ShieldGun', active: false }
+    ];
+    let selectedRoleIndex = 0;
+
+    function renderRoles() {
+      const availableContainer = document.getElementById('roles-available-list');
+      const activeContainer = document.getElementById('roles-active-list');
+      availableContainer.innerHTML = '';
+      activeContainer.innerHTML = '';
+
+      combatRolesData.forEach((role, idx) => {
+        const div = document.createElement('div');
+        div.className = `role-item ${idx === selectedRoleIndex ? 'selected' : ''}`;
+        div.innerHTML = `<span>${role.name}</span>`;
+        div.onclick = () => { selectedRoleIndex = idx; renderRoles(); updateRoleDetails(); };
+        (role.active ? activeContainer : availableContainer).appendChild(div);
+      });
+    }
+
+    function toggleCombatRoles() {
+      const enabled = document.getElementById('use-combat-roles').checked;
+      const body = document.getElementById('combat-roles-body');
+      body.style.opacity = enabled ? '1' : '0.4';
+      body.style.pointerEvents = enabled ? 'auto' : 'none';
+      document.getElementById('role-frequency-input').disabled = !enabled;
+    }
+
+    function populateRoleSelect() {
+      const select = document.getElementById('det-role-select');
+      select.innerHTML = '';
+      combatRolesData.forEach((role, idx) => {
+        const opt = document.createElement('option');
+        opt.value = idx;
+        opt.textContent = role.name;
+        select.appendChild(opt);
+      });
+    }
+
+    function updateRoleDetails() {
+      const role = combatRolesData[selectedRoleIndex];
+      if (!role) return;
+      document.getElementById('edit-role-accuracy').value = role.accuracy;
+      document.getElementById('edit-role-tactics').value = role.tactics;
+      document.getElementById('edit-role-aggressiveness').value = role.aggressiveness;
+      document.getElementById('edit-role-reaction').value = role.reaction;
+      document.getElementById('edit-role-style').value = role.style;
+      document.getElementById('edit-role-trans').value = role.trans;
+      document.getElementById('edit-role-weapon').value = role.weapon.toLowerCase();
+    }
+
+    function saveActiveRoleEdits() {
+      const role = combatRolesData[selectedRoleIndex];
+      if (!role) return;
+      role.accuracy = parseFloat(document.getElementById('edit-role-accuracy').value) || 0;
+      role.tactics = parseFloat(document.getElementById('edit-role-tactics').value) || 0;
+      role.aggressiveness = parseFloat(document.getElementById('edit-role-aggressiveness').value) || 0;
+      role.reaction = parseFloat(document.getElementById('edit-role-reaction').value) || 0;
+      role.style = parseFloat(document.getElementById('edit-role-style').value) || 0;
+      role.trans = parseFloat(document.getElementById('edit-role-trans').value) || 0;
+      role.weapon = document.getElementById('edit-role-weapon').value;
+    }
+
+    function addNewRole() {
+      const newName = 'New Custom Role ' + (combatRolesData.length + 1);
+      combatRolesData.unshift({ name: newName, accuracy: 1.00, tactics: 1.00, aggressiveness: 1.00, reaction: 1.00, style: 0.00, trans: 0.50, weapon: 'xweapons.linkgun', active: false });
+      selectedRoleIndex = 0;
+      renderRoles();
+      updateRoleDetails();
+    }
+
+    function addRoleToActive() {
+      const role = combatRolesData[selectedRoleIndex];
+      if (role) role.active = true;
+      renderRoles();
+    }
+
+    function removeRoleFromActive() {
+      const role = combatRolesData[selectedRoleIndex];
+      if (role) role.active = false;
+      renderRoles();
+    }
+
+    function deleteCurrentRole() {
+      if (combatRolesData.length <= 1) { alert('Cannot delete the last remaining role.'); return; }
+      combatRolesData.splice(selectedRoleIndex, 1);
+      selectedRoleIndex = Math.max(0, selectedRoleIndex - 1);
+      renderRoles();
+      updateRoleDetails();
+    }
+
+    renderVoices();
+    renderWeapons();
+    renderRoles();
+    updateRoleDetails();
+    toggleCombatRoles();
+    populateRoleSelect();
+
+    // Bot Browser Sub-tabs & Quicklist with Bio Data strings isolated strictly to Details tab
+    const botsData = [
+      { name: 'Indominus', role: 'Sniper', portrait: 'portrait1.png', race: 'Space Marine', sex: 'Male', species: 'xGame.SPECIES_Merc', voice: 'spacemarines w40k', weapon: 'Flak Cannon', menu: '"SP"', salary: '932 Credits', bio: 'Random Text 1: A notorious space marine veteran known for heavy ordnance and unyielding defensive tactics.', accuracy: 1.42, jumpiness: 0.55, strafing: 0.98, tactics: 1.31, aggressiveness: 0.71, style: 0.62, reaction: 0.77, trans: 0.68, mesh: 'SpaceMarineMale', body: 'AstartesTex.Astartes_Body', face: 'AstartesTex.Astartes_Face', team: 'AstartesTex.Astartes_TeamFace', port: 'AstartesTex.Astartes_ASM', skel: 'SkeletonMaleA', rag: 'RagdollMaleA', spec: 'Enabled' },
+      { name: 'Hyena', role: 'Artiller Support', portrait: 'portrait2.png', race: 'Human', sex: 'Male', species: 'xGame.SPECIES_Egypt', voice: 'mercenary voices', weapon: 'Lightning Gun', menu: '"SP"', salary: '500 Credits', bio: 'Random Text 2: Highly agile operative specialized in long-range precision and rapid spatial relocation.', accuracy: 1.10, jumpiness: 0.70, strafing: 0.80, tactics: 1.00, aggressiveness: 0.50, style: 0.40, reaction: 0.60, trans: 0.50, mesh: 'MercMale', body: 'MercTex.Body', face: 'MercTex.Face', team: 'MercTex.Team', port: 'MercTex.Port', skel: 'SkeletonMaleB', rag: 'RagdollMaleB', spec: 'Disabled' },
+      { name: 'Arcee', role: 'Skirmisher', portrait: 'portrait3.png', race: 'Cyborg', sex: 'Female', species: 'xGame.SPECIES_Bot', voice: 'Robot Female', weapon: 'Link Gun', menu: '"MP"', salary: '1200 Credits', bio: 'Random Text 3: Relentless cyborg combatant engineered explicitly for aggressive tournament domination.', accuracy: 1.60, jumpiness: 0.40, strafing: 1.10, tactics: 1.50, aggressiveness: 0.90, style: 0.80, reaction: 0.85, trans: 0.80, mesh: 'SkaarjFemale', body: 'SkaarjTex.Body', face: 'SkaarjTex.Face', team: 'SkaarjTex.Team', port: 'SkaarjTex.Port', skel: 'SkeletonFemaleA', rag: 'RagdollFemaleA', spec: 'Enabled' },
+      { name: 'SyN3rGy', role: 'Sniper', portrait: 'portrait4.png', race: 'Human', sex: 'Male', species: 'xGame.SPECIES_Merc', voice: 'spacemarines w40k', weapon: 'Flak Cannon', menu: '"SP"', salary: '932 Credits', bio: 'Random Text 1: A notorious space marine veteran known for heavy ordnance and unyielding defensive tactics.', accuracy: 1.42, jumpiness: 0.55, strafing: 0.98, tactics: 1.31, aggressiveness: 0.71, style: 0.62, reaction: 0.77, trans: 0.68, mesh: 'SpaceMarineMale', body: 'AstartesTex.Astartes_Body', face: 'AstartesTex.Astartes_Face', team: 'AstartesTex.Astartes_TeamFace', port: 'AstartesTex.Astartes_ASM', skel: 'SkeletonMaleA', rag: 'RagdollMaleA', spec: 'Enabled' },
+      { name: 'Seronique', role: 'Assault Breaker', portrait: 'portrait5.png', race: 'Divine', sex: 'Male', species: 'xGame.SPECIES_Egypt', voice: 'mercenary voices', weapon: 'Lightning Gun', menu: '"SP"', salary: '500 Credits', bio: 'Random Text 2: Highly agile operative specialized in long-range precision and rapid spatial relocation.', accuracy: 1.10, jumpiness: 0.70, strafing: 0.80, tactics: 1.00, aggressiveness: 0.50, style: 0.40, reaction: 0.60, trans: 0.50, mesh: 'MercMale', body: 'MercTex.Body', face: 'MercTex.Face', team: 'MercTex.Team', port: 'MercTex.Port', skel: 'SkeletonMaleB', rag: 'RagdollMaleB', spec: 'Disabled' },
+      { name: 'God-Horus', role: 'Aggressive Camper', portrait: 'portrait6.png', race: 'Human', sex: 'Female', species: 'xGame.SPECIES_Bot', voice: 'Robot Female', weapon: 'Link Gun', menu: '"MP"', salary: '1200 Credits', bio: 'Random Text 3: Relentless cyborg combatant engineered explicitly for aggressive tournament domination.', accuracy: 1.60, jumpiness: 0.40, strafing: 1.10, tactics: 1.50, aggressiveness: 0.90, style: 0.80, reaction: 0.85, trans: 0.80, mesh: 'SkaarjFemale', body: 'SkaarjTex.Body', face: 'SkaarjTex.Face', team: 'SkaarjTex.Team', port: 'SkaarjTex.Port', skel: 'SkeletonFemaleA', rag: 'RagdollFemaleA', spec: 'Enabled' }
+    ];
+    let activeBotIndex = 0;
+
+    const bot = botsData[idx];
+    document.getElementById('det-name').textContent = bot.name;
+    document.getElementById('bot-portrait-img').src = bot.portrait;
+    document.getElementById('browser-bot-name').textContent = bot.name;
+
+    function selectBot(idx) {
+      activeBotIndex = idx;
+      document.querySelectorAll('.quicklist-item').forEach((el, i) => {
+        if (i === idx) el.classList.add('active');
+        else el.classList.remove('active');
+      });
+      const bot = botsData[idx];
+      document.getElementById('det-name').textContent = bot.name;
+      document.getElementById('bot-portrait-img').src = bot.portrait;
+      document.getElementById('browser-bot-name').textContent = bot.name;
+      document.getElementById('det-race').textContent = bot.race;
+      document.getElementById('det-sex').textContent = bot.sex;
+      document.getElementById('det-species').textContent = bot.species;
+      document.getElementById('det-voice').textContent = bot.voice;
+      document.getElementById('det-weapon').textContent = bot.weapon;
+      document.getElementById('det-menu').textContent = bot.menu;
+      document.getElementById('det-salary').textContent = bot.salary;
+      document.getElementById('det-biodata').textContent = bot.bio;
+      document.getElementById('det-role-select').value = 0;
+      document.getElementById('det-name').textContent = bot.name;
+      document.getElementById('bot-portrait-img').src = bot.portrait;
+      document.getElementById('browser-bot-name').textContent = bot.name;
+      document.getElementById('browser-bot-role').textContent = bot.role;
+      updateBotRoleBadge();
+
+      document.getElementById('app-mesh').textContent = bot.mesh;
+      document.getElementById('app-body').textContent = bot.body;
+      document.getElementById('app-face').textContent = bot.face;
+      document.getElementById('app-team').textContent = bot.team;
+      document.getElementById('app-port').textContent = bot.port;
+      document.getElementById('app-skel').textContent = bot.skel;
+      document.getElementById('app-rag').textContent = bot.rag;
+      document.getElementById('app-spec').textContent = bot.spec;
+
+      document.getElementById('skill-accuracy').value = bot.accuracy;
+      document.getElementById('skill-jumpiness').value = bot.jumpiness;
+      document.getElementById('skill-strafing').value = bot.strafing;
+      document.getElementById('skill-tactics').value = bot.tactics;
+      document.getElementById('skill-aggressiveness').value = bot.aggressiveness;
+      document.getElementById('skill-style').value = bot.style;
+      document.getElementById('skill-reaction').value = bot.reaction;
+      document.getElementById('skill-trans').value = bot.trans;
+      recalculateSkills();
+    }
+
+    function switchBrowserTab(tabId) {
+      document.querySelectorAll('#view-browser .app-tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      ['details', 'skills', 'appearance'].forEach(id => {
+        const el = document.getElementById('browser-sub-' + id);
+        if (id === tabId) el.classList.add('active');
+        else el.classList.remove('active');
+      });
+    }
+
+    function updateBotRoleBadge() {
+      const idx = document.getElementById('det-role-select').value;
+      const role = combatRolesData[idx];
+      if (role) {
+        document.querySelector('#view-browser .role-badge').textContent = role.name;
+      }
+    }
+
+    function recalculateSkills() {
+      const strafing = parseFloat(document.getElementById('skill-strafing').value) || 0;
+      const jumpiness = parseFloat(document.getElementById('skill-jumpiness').value) || 0;
+      const aggressiveness = parseFloat(document.getElementById('skill-aggressiveness').value) || 0;
+      const style = parseFloat(document.getElementById('skill-style').value) || 0;
+      const accuracy = parseFloat(document.getElementById('skill-accuracy').value) || 0;
+      const tactics = parseFloat(document.getElementById('skill-tactics').value) || 0;
+
+      const agilityVal = Math.round(((strafing + jumpiness) / 2) * 100);
+      const aggroVal = Math.round(((aggressiveness + Math.abs(style)) / 2) * 100);
+      const combatRatingVal = Math.round(((accuracy + tactics + strafing) / 3) * 60);
+
+      document.getElementById('calc-agility').textContent = agilityVal + '%';
+      document.getElementById('calc-aggressiveness').textContent = aggroVal + '%';
+      document.getElementById('calc-combat-rating').textContent = combatRatingVal + '%';
+    }
+
+    selectBot(0);
+
+    // Settings Weapon Mapping Addition
+    function addWeaponMapping() {
+      const table = document.getElementById('weapon-table');
+      const row = table.insertRow(-1);
+      row.innerHTML = `<td style="padding:5px 0;"><input type="text" placeholder="object.path" style="width:100%;"></td><td style="padding:5px 0;"><input type="text" placeholder="Friendly Name" style="width:100%;"></td><td style="text-align:right;color:var(--text-faint);cursor:pointer;" onclick="this.parentElement.remove()">remove</td>`;
+    }
+  </script>
+
+</body>
+
+</html>
